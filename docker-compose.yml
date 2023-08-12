@@ -8,6 +8,7 @@ services:
     ports:
       - 8080:8080
     volumes:
+      - /usr/back-end/node_modules
       - ./app/back-end/:/usr/back-end
     restart: always  
     links:
@@ -20,6 +21,7 @@ services:
     ports:
       - 3000:3000
     volumes:
+      - /usr/front-end/node_modules
       - ./app/front-end/:/usr/front-end
     restart: always  
  
