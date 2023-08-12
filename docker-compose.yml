@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  back-end:   
+    container_name: back-end
+    build: ./app/back-end
+    command: yarn run dev
+    ports:
+      - 8080:8080
+    volumes:
+      - ./app/back-end/:/usr/back-end
+    restart: always  
+    links:
+      - front-end
+
+  front-end:   
+    container_name: front-end
+    build: ./app/front-end
+    command: yarn run dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app/front-end/:/usr/front-end
+    restart: always  
+ 
+
+
