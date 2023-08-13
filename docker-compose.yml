@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   back-end:   
     container_name: back-end
     build: ./app/back-end
@@ -10,9 +11,14 @@ services:
     volumes:
       - /usr/back-end/node_modules
       - ./app/back-end/:/usr/back-end
+    environment:
+      MYSQL_HOST: mysql_top_commerce
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: top_commerce_db  
     restart: always  
-    links:
-      - front-end
+    depends_on:
+      - data-base
 
   front-end:   
     container_name: front-end
@@ -24,6 +30,22 @@ services:
       - /usr/front-end/node_modules
       - ./app/front-end/:/usr/front-end
     restart: always  
- 
+    depends_on:
+      - back-end
 
+  data-base:
+    image: mysql:latest
+    container_name: data-base
+    hostname: mysql_top_commerce
+    restart: always
+    ports:
+      - '3306:3306'    
+    volumes:
+      - ~/.MySQLDBData/mysqlonly/top-commerce-db-data:/var/lib/mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: secret
+        MYSQL_DATABASE: top_commerce_db
+
+volumes:
+  top-commerce-db-data:
 
