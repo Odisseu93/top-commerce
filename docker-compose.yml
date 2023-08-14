@@ -11,6 +11,7 @@ services:
     volumes:
       - /usr/back-end/node_modules
       - ./app/back-end/:/usr/back-end
+    mem_limit: '500m'    
     environment:
       MYSQL_HOST: mysql_top_commerce
       MYSQL_USER: root
@@ -29,6 +30,7 @@ services:
     volumes:
       - /usr/front-end/node_modules
       - ./app/front-end/:/usr/front-end
+    mem_limit: '1g'    
     restart: always  
     depends_on:
       - back-end
@@ -42,6 +44,7 @@ services:
       - '3306:3306'    
     volumes:
       - ~/.MySQLDBData/mysqlonly/top-commerce-db-data:/var/lib/mysql
+    mem_limit: '2g'    
     environment:
         MYSQL_ROOT_PASSWORD: secret
         MYSQL_DATABASE: top_commerce_db
