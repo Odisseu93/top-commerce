@@ -1,7 +1,7 @@
-const initDb = () => {
+const createProductsTable = () => {
   require('./models/Product').Product.sync({ force: true })
 }
 
 module.exports = {
-  initDb
+  createProductsTable
 }
