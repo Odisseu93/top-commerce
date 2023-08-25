@@ -1,4 +1,7 @@
 const express = require('express')
+const bd = require('./db/mysql')
+
+const Product = require('./db/models/Product')
 
 const app = express()
 
@@ -8,4 +11,8 @@ app.get('/', (req, res) => {
   res.send('Hello Worlds!')
 })
 
-app.listen(port, () => console.log(`Listen on ${port} port`))
+bd
+  .sync()
+    .then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
+    .catch(err => console.error(err))
+

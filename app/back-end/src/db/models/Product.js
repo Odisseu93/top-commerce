@@ -1,8 +1,9 @@
 const { DataTypes } = require('sequelize')
+const db = require('../mysql')
 
 const { INTEGER, STRING, TEXT, BOOLEAN } = DataTypes
 
-const Product = require('../mysql').dbConfig.define('Product', {
+const Product = db.define('Product', {
   sku: {
     type: INTEGER,
     allowNull: false,
