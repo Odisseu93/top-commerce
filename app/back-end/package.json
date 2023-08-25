@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/server.js"
   },
   "author": "@Odisseu93 - Ulisses Silvério <ulissessuporteti01@gmail.com> (https://github.com/odisseu93)",
   "license": "MIT",
