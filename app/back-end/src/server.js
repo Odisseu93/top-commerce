@@ -7,12 +7,6 @@ const app = express()
 
 const port = 8080
 
-app.get('/', (req, res) => {
-  res.send('Hello Worlds!')
-})
-
-bd
-  .sync()
-    .then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
-    .catch(err => console.error(err))
-
+bd.sync()
+  .then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
+  .catch(err => console.error(err))
