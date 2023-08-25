@@ -41,7 +41,8 @@ services:
     hostname: mysql_top_commerce
     restart: always
     ports:
-      - '3306:3306'    
+      #  <Port exposed> : < MySQL Port running inside container>
+      - '3308:3306'   
     volumes:
       - ~/.MySQLDBData/mysqlonly/top-commerce-db-data:/var/lib/mysql
     mem_limit: '2g'    
