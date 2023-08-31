@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize')
-const db = require('../mysql')
+const db = require('../db/mysql')
 
 const { INTEGER, STRING, TEXT, BOOLEAN } = DataTypes
 
