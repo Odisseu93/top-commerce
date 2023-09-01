@@ -1,13 +1,12 @@
 const { DataTypes } = require('sequelize')
 const db = require('../db/mysql')
 
-const { INTEGER, STRING, TEXT, BOOLEAN } = DataTypes
+const { UUID, STRING, TEXT, BOOLEAN } = DataTypes
 
 const Product = db.define('Product', {
-  sku: {
-    type: INTEGER,
+  id: {
+    type: UUID,
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true
   },
   name: {
