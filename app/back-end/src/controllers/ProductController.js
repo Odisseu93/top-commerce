@@ -48,6 +48,17 @@ class ProductController {
       .catch(err => { throw new Error(err) })
   }
 
+
+  static async delete(req, res) {
+    const { id } = req.params
+
+    await Product.destroy({ where: { id: id } })
+      .then(() => res.status(200).json({
+        message: 'Product deleted!',
+      }))
+      .catch(err => { throw new Error(err) })
+  }
+
 }
 
 module.exports = ProductController
