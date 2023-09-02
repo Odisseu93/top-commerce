@@ -2,9 +2,9 @@ const Product = require('../models/Product')
 
 class ProductController {
   static async getAll(req, res) {
-    const products = await Product.findAll({raw: true})
-
-    res.send(products)
+    await Product.findAll()
+      .then(products => res.status(200).json({ products: products }))
+      .catch(err => { throw new Error(err) })
   }
 }
 
