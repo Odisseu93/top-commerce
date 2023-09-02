@@ -15,19 +15,39 @@ class ProductController {
 
     const newProduct = {
       id: uuid,
-      name: name,
-      description: description,
-      category: category,
+      name,
+      description,
+      category,
       active: false
     }
 
     await Product.create(newProduct)
-      .then(product => res.status(201).json({
+      .then(result => res.status(201).json({
         message: 'Product created seccessfully!',
-        registeredProduct: product
+        registeredProduct: result
       }))
       .catch(err => { throw new Error(err) })
   }
+
+
+  static async update(req, res) {
+    const {
+      id,
+      name,
+      description,
+      category,
+      active } = req.body
+
+    const product = { id, name, description, category, active }
+
+    await Product.update(product, { where: { id: id } })
+      .then(result => res.status(200).json({
+        message: 'Product updated seccessfully!',
+        updatedProduct: result
+      }))
+      .catch(err => { throw new Error(err) })
+  }
+
 }
 
 module.exports = ProductController
