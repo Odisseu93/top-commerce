@@ -21,11 +21,12 @@ class ProductController {
 
 
   static async create(req, res) {
-    const { name, price, description, category } = req.body
+    const { sku, name, price, description, category } = req.body
     const uuid = randomUUID()
 
     const newProduct = {
       id: uuid,
+      sku,
       name,
       price,
       description,
@@ -46,13 +47,14 @@ class ProductController {
     const { id } = req.params
 
     const {
+      sku,
       name,
       price,
       description,
       category,
       active } = req.body
 
-    const product = { name, price, description, category, active }
+    const product = { sku, name, price, description, category, active }
 
     await Product.update(product, { where: { id: id } })
       .then(result => res.status(200).json({
@@ -75,11 +77,15 @@ class ProductController {
 
 
   static async filterProducts(req, res) {
-    const { id, name, category, active } = req.query;
+    const { id, sku, name, category, active } = req.query;
     let whereClause = {};
 
     if (id) {
       whereClause.id = id;
+    }
+
+    if (sku) {
+      whereClause.sku = sku
     }
 
     if (name) {
