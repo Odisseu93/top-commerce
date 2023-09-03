@@ -15,7 +15,7 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
-app.use('/', ProductRoutes)
+app.use('/products', ProductRoutes)
 
 bd.sync()
   .then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
