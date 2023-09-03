@@ -34,6 +34,33 @@ class ProductController {
       active: false
     }
 
+    // validations 
+    const existingProduct = await Product.findOne({ where: { sku } });
+
+    if(sku.length === 0) {
+      return res.status(400).json({
+        message: 'Use a unique SKU or set it to null!',
+      })
+    }
+
+    if (existingProduct && existingProduct.sku) {
+      return res.status(400).json({
+        message: 'The SKU already exists. Use a unique SKU or set it to null!',
+      })
+    }
+
+    if (!name || name.length < 4) {
+      return res.status(400).json({
+        message: 'product name cannot be less than 4 characters, or be empty!',
+      })
+    }
+
+    if (!category || category.length < 4) {
+      return res.status(400).json({
+        message: 'Category cannot be less than 4 characters, or be empty!',
+      })
+    }
+
     await Product.create(newProduct)
       .then(result => res.status(201).json({
         message: 'Product created seccessfully!',
