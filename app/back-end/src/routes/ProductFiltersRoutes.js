@@ -2,8 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 
-const ProductController = require('../controllers/ProductController')
+const ProductFilterController = require('../controllers/ProductFilterController')
 
-router.get('/', ProductController.filterProducts)
+router.get('/price', ProductFilterController.filterPriceInBetween)
+router.get('/', ProductFilterController.filterProducts)
+
 
 module.exports = router

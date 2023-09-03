@@ -1,6 +1,5 @@
 const Product = require('../models/Product')
 const { randomUUID } = require('crypto')
-const { Op } = require('sequelize')
 class ProductController {
 
   static async getAll(req, res) {
@@ -100,43 +99,6 @@ class ProductController {
         message: 'Product deleted!',
       }))
       .catch(err => { throw new Error(err) })
-  }
-
-
-  static async filterProducts(req, res) {
-    const { id, sku, name, category, active } = req.query;
-    let whereClause = {};
-
-    if (id) {
-      whereClause.id = id;
-    }
-
-    if (sku) {
-      whereClause.sku = sku
-    }
-
-    if (name) {
-      whereClause.name = { [Op.like]: `%${name}%` };
-    }
-
-    if (category) {
-      whereClause.category = { [Op.like]: `%${category}%` };
-    }
-
-    if (active !== undefined) {
-      whereClause.active = active === 'true';
-    }
-
-    try {
-      await Product.findAll({
-        where: whereClause
-      }).then(products => {
-        if (products.length === 0) return res.status(404).json({ message: 'Product(s) not found !' })
-        res.status(200).json({ products: products })
-      })
-    } catch (err) {
-      res.status(500).json({ error: 'Internal server error' });
-    }
   }
 }
 
