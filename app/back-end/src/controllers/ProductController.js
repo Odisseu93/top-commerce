@@ -21,12 +21,13 @@ class ProductController {
 
 
   static async create(req, res) {
-    const { name, description, category } = req.body
+    const { name, price, description, category } = req.body
     const uuid = randomUUID()
 
     const newProduct = {
       id: uuid,
       name,
+      price,
       description,
       category,
       active: false
@@ -46,11 +47,12 @@ class ProductController {
 
     const {
       name,
+      price,
       description,
       category,
       active } = req.body
 
-    const product = { name, description, category, active }
+    const product = { name, price, description, category, active }
 
     await Product.update(product, { where: { id: id } })
       .then(result => res.status(200).json({

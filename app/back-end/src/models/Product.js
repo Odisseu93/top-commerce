@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const db = require('../db/mysql')
 
-const { UUID, STRING, TEXT, BOOLEAN } = DataTypes
+const { UUID, STRING, FLOAT, TEXT, BOOLEAN } = DataTypes
 
 const Product = db.define('Product', {
   id: {
@@ -12,6 +12,10 @@ const Product = db.define('Product', {
   name: {
     type: STRING,
     allowNull: false,
+  },
+  price: {
+    type: FLOAT(2),
+    defaultValue: 0.00
   },
   description: {
     type: TEXT,
