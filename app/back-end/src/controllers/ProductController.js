@@ -9,6 +9,16 @@ class ProductController {
   }
 
 
+  static async getById(req, res) {
+    const { id } = req.params
+
+    await Product.findByPk(id).then(product => {
+      if (!product) return res.status(404).json({ message: 'Product not found!' })
+      res.status(200).json({ product: product })
+    }).catch(err => { throw new Error(err) })
+  }
+
+  
   static async create(req, res) {
     const { name, description, category } = req.body
     const uuid = randomUUID()
