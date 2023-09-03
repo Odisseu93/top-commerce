@@ -44,7 +44,10 @@ class ProductFilterController {
     const { initialPrice, finalPrice } = req.query
     let whereClause = {};
 
-    if (finalPrice < initialPrice) {
+    const initP = Number(initialPrice)
+    const fnlP = Number(finalPrice)
+
+    if (fnlP < initP) {
       return res.status(400).json({ message: 'the "finalPrice" cannot be less than "initialPrice"' })
     }
 
@@ -55,16 +58,16 @@ class ProductFilterController {
 
     switch (true) {
       case initialPrice && !finalPrice:
-        whereClause.price = { [Op.gte]: [initialPrice] }
+        whereClause.price = { [Op.gte]: [initP] }
         break;
 
       case !initialPrice && finalPrice:
-        whereClause.price = { [Op.lte]: [finalPrice] }
+        whereClause.price = { [Op.lte]: [fnlP] }
         break
 
 
       default:
-        whereClause.price = { [Op.between]: [initialPrice, finalPrice] }
+        whereClause.price = { [Op.between]: [initP, fnlP] }
     }
 
     Product.findAll({ where: whereClause }).then(products => {
