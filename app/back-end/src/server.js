@@ -1,24 +1,22 @@
-const express = require('express')
-const bd = require('./db/mysql')
+const express = require('express');
+const bd = require('./db/mysql');
 
-const Product = require('./models/Product')
+const app = express();
 
-const app = express()
+const port = 8080;
 
-const port = 8080
-
-const ProductRoutes = require('./routes/ProductRoutes')
-const ProductFiltersRoutes = require('./routes/ProductFiltersRoutes') 
+const ProductRoutes = require('./routes/ProductRoutes');
+const ProductFiltersRoutes = require('./routes/ProductFiltersRoutes'); 
 
 app.use(express.urlencoded({
-  extended: true
-}))
+	extended: true
+}));
 
-app.use(express.json())
+app.use(express.json());
 
-app.use('/products', ProductRoutes)
-app.use('/filter/products', ProductFiltersRoutes)
+app.use('/products', ProductRoutes);
+app.use('/filter/products', ProductFiltersRoutes);
 
 bd.sync()
-  .then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
-  .catch(err => console.error(err))
+	.then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
+	.catch(err => console.error(err));
