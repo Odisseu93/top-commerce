@@ -1,26 +1,46 @@
 const Product = require('../models/Product');
+const Category = require('../models/ProductCategory');
+
 const { randomUUID } = require('crypto');
 class ProductController {
 
 	static async getAll(req, res) {
-		await Product.findAll()
+		await Product
+			.findAll({
+				include: {
+					model: Category,
+					attributes: ['id', 'name', 'parentId'],
+				},
+				attributes: { exclude: ['CategoryId'] }
+			})
 			.then(products => res.status(200).json({ products: products }))
 			.catch(err => { throw new Error(err); });
 	}
 
 
+
 	static async getById(req, res) {
 		const { id } = req.params;
 
-		await Product.findByPk(id).then(product => {
-			if (!product) return res.status(404).json({ message: 'Product not found!' });
-			res.status(200).json({ product: product });
-		}).catch(err => { throw new Error(err); });
+		await Product
+			.findByPk(id, {
+				include: {
+					model: Category,
+					attributes: ['id', 'name', 'parentId'],
+				},
+				attributes: { exclude: ['CategoryId'] }
+			})
+			.then(product => {
+				if (!product) return res.status(404).json({ message: 'Product not found!' });
+
+				res.status(200).json({ product: product });
+			})
+			.catch(err => { throw new Error(err); });
 	}
 
 
 	static async create(req, res) {
-		const { sku, name, price, description, category } = req.body;
+		const { sku, name, price, description, CategoryId } = req.body;
 		const uuid = randomUUID();
 
 		const newProduct = {
@@ -29,7 +49,7 @@ class ProductController {
 			name,
 			price,
 			description,
-			category,
+			CategoryId,
 			active: false
 		};
 
@@ -54,9 +74,9 @@ class ProductController {
 			});
 		}
 
-		if (!category || category.length < 4) {
+		if (!CategoryId) {
 			return res.status(400).json({
-				message: 'Category cannot be less than 4 characters, or be empty!',
+				message: 'CategoryId cannot be null',
 			});
 		}
 
@@ -77,10 +97,10 @@ class ProductController {
 			name,
 			price,
 			description,
-			category,
+			CategoryId,
 			active } = req.body;
 
-		const product = { sku, name, price, description, category, active };
+		const product = { sku, name, price, description, CategoryId, active };
 
 		await Product.update(product, { where: { id: id } })
 			.then(result => res.status(200).json({

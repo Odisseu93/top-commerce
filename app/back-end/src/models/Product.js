@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db = require('../db/mysql');
 
+const ProductCategory = require('./ProductCategory'); 
+
 const { UUID, CHAR, STRING, FLOAT, TEXT, BOOLEAN } = DataTypes;
 
 const Product = db.define('Product', {
@@ -25,8 +27,8 @@ const Product = db.define('Product', {
 		type: TEXT,
 		allowNull: true,
 	},
-	category: {
-		type: STRING,
+	CategoryId: {
+		type: UUID,
 		allowNull: false,
 	},
 	active: {
@@ -34,5 +36,8 @@ const Product = db.define('Product', {
 		allowNull: false,
 	}
 });
+
+Product.belongsTo(ProductCategory, { foreignKey: 'CategoryId', onDelete: 'CASCADE' });
+ProductCategory.hasMany(Product, { foreignKey: 'CategoryId' });
 
 module.exports = Product; 
