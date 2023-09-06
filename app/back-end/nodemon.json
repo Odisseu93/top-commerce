@@ -1,0 +1,10 @@
+{
+  "restartable": "rs",
+  "watch": [
+    "src",
+    "test/samples/"
+  ],
+  "execMap": {
+    "ts": "ts-node --esm src/server.ts"
+  }
+}
