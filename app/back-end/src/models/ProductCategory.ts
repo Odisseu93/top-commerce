@@ -63,4 +63,8 @@ ProductCategory.init(
 	}
 );
 
+
+ProductCategory.hasMany(ProductCategory, { as: 'children', foreignKey: 'parentId' });
+ProductCategory.belongsTo(ProductCategory, { as: 'parent', foreignKey: 'parentId' });
+
 export default ProductCategory;
