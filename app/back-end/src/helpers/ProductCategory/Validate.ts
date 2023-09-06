@@ -17,10 +17,13 @@ class Validate {
 	}
 
 
-	static async isValidParent(parentId: string) {
+	static async isValidParent(parentId: string | null) {
+		if (!parentId) return true;
+
 		const parentCategory = await Category.findOne({ where: { id: parentId } });
 
-		return parentCategory || parentId === null;
+		if (parentCategory) return true;
+		else return false;
 	}
 
 

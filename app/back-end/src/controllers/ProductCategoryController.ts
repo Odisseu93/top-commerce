@@ -67,7 +67,7 @@ class ProductCategoryController {
 		req: TypedRequestBody<{
 			name: string
 			description: string
-			parentId: string
+			parentId: string | null
 			level: number
 		}>,
 		res: TypedResponseJson<{
@@ -78,7 +78,7 @@ class ProductCategoryController {
 		const { name, description, parentId } = req.body;
 		const uuid = randomUUID();
 
-		const parent = await ProductCategory.findByPk(parentId);
+		const parent = !parentId ? null : await ProductCategory.findByPk(parentId);
 
 		if (await Validate.isValidName(name) === false) {
 			return res.status(400).json({
@@ -104,7 +104,7 @@ class ProductCategoryController {
 			});
 		}
 
-	
+
 		const level = !parent ? 1 : parent.get('level') + 1;
 
 		const newCategory = {
