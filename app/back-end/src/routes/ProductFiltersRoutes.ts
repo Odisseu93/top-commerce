@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express';
+
+import ProductFilterController from '../controllers/ProductFilterController.js';
 
 const router = express.Router();
 
-const ProductFilterController = require('../controllers/ProductFilterController');
 
 router.get('/price', ProductFilterController.filterPriceInBetween);
 router.get('/', ProductFilterController.filterProducts);
 
 
-module.exports = router;
+export default router;

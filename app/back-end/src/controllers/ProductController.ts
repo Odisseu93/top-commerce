@@ -1,10 +1,19 @@
-const Product = require('../models/Product');
-const Category = require('../models/ProductCategory');
+import Product from '../models/Product.js';
+import Category from '../models/ProductCategory.js';
 
-const { randomUUID } = require('crypto');
+import { randomUUID } from 'crypto';
+
+import { Request } from 'express';
+import { RequestCreateType, RequestUpdateType } from '../types/controllers/Product/index.js';
+import TypedResponseJson from '../types/TypedResponseJson.js';
+
+
 class ProductController {
 
-	static async getAll(req, res) {
+	static async getAll(
+		req: Request,
+		res: TypedResponseJson<{ message: string, products?: Product[] }>) {
+
 		await Product
 			.findAll({
 				include: {
@@ -13,13 +22,18 @@ class ProductController {
 				},
 				attributes: { exclude: ['CategoryId'] }
 			})
-			.then(products => res.status(200).json({ products: products }))
+			.then(products => res.status(200).json({
+				message: 'search accomplished!',
+				products: products
+			}))
 			.catch(err => { throw new Error(err); });
 	}
 
 
+	static async getById(
+		req: Request,
+		res: TypedResponseJson<{ message: string, product?: Product }>) {
 
-	static async getById(req, res) {
 		const { id } = req.params;
 
 		await Product
@@ -33,13 +47,19 @@ class ProductController {
 			.then(product => {
 				if (!product) return res.status(404).json({ message: 'Product not found!' });
 
-				res.status(200).json({ product: product });
+				res.status(200).json({
+					message: 'search accomplished!',
+					product: product
+				});
 			})
 			.catch(err => { throw new Error(err); });
 	}
 
 
-	static async create(req, res) {
+	static async create(
+		req: RequestCreateType,
+		res: TypedResponseJson<{ message: string, registeredProduct?: Product }>) {
+
 		const { sku, name, price, description, CategoryId } = req.body;
 		const uuid = randomUUID();
 
@@ -56,7 +76,7 @@ class ProductController {
 		// validations 
 		const existingProduct = await Product.findOne({ where: { sku } });
 
-		if(sku.length === 0) {
+		if (sku.length === 0) {
 			return res.status(400).json({
 				message: 'Use a unique SKU or set it to null!',
 			});
@@ -89,7 +109,10 @@ class ProductController {
 	}
 
 
-	static async update(req, res) {
+	static async update(
+		req: RequestUpdateType,
+		res: TypedResponseJson<{ message: string, result: unknown }>) {
+
 		const { id } = req.params;
 
 		const {
@@ -105,13 +128,13 @@ class ProductController {
 		await Product.update(product, { where: { id: id } })
 			.then(result => res.status(200).json({
 				message: 'Product updated seccessfully!',
-				updatedProduct: result
+				result: result
 			}))
 			.catch(err => { throw new Error(err); });
 	}
 
 
-	static async delete(req, res) {
+	static async delete(req: Request, res: TypedResponseJson<{ message: string }>) {
 		const { id } = req.params;
 
 		await Product.destroy({ where: { id: id } })
@@ -122,4 +145,4 @@ class ProductController {
 	}
 }
 
-module.exports = ProductController;
+export default ProductController;

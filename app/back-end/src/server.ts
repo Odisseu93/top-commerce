@@ -1,15 +1,13 @@
-const express = require('express');
-const bd = require('./db/mysql');
+import express from 'express';
+import bd from './db/mysql/index.js';
+
+import ProductRoutes from './routes/ProductRoutes.js';
+import ProductFiltersRoutes from './routes/ProductFiltersRoutes.js'; 
+import ProductCategoryRoutes from './routes/ProductCategoryRoutes.js'; 
 
 const app = express();
 
 const port = 8080;
-
-
-const ProductRoutes = require('./routes/ProductRoutes');
-const ProductFiltersRoutes = require('./routes/ProductFiltersRoutes'); 
-const ProductCategoryRoutes = require('./routes/ProductCategoryRoutes'); 
-
 
 app.use(express.urlencoded({
 	extended: true

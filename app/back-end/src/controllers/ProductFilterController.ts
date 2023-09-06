@@ -1,11 +1,32 @@
-const Product = require('../models/Product');
-const { Op } = require('sequelize');
+import Product from '../models/Product.js';
+import { Op } from 'sequelize';
+
+import TypedResponseJson from '../types/TypedResponseJson.js';
+import TypedRequestQuery from '../types/TypedRequestQuery.js';
 
 class ProductFilterController {
 
-	static async filterProducts(req, res) {
+	static async filterProducts(
+		req: TypedRequestQuery<{
+			id: string
+			sku: string
+			name: string
+			category: string
+			active: string
+		}>,
+		res: TypedResponseJson<{ message: string, products?: Product[] }>) {
+
 		const { id, sku, name, category, active } = req.query;
-		let whereClause = {};
+
+		type WhereClause = {
+			id: string
+			sku: string
+			name: object
+			category: object
+			active: boolean
+		}
+
+		const whereClause = {} as WhereClause;
 
 		if (id) {
 			whereClause.id = id;
@@ -24,7 +45,7 @@ class ProductFilterController {
 		}
 
 		if (active !== undefined) {
-			whereClause.active = active === 'true';
+			whereClause.active = active == 'true';
 		}
 
 		try {
@@ -32,17 +53,30 @@ class ProductFilterController {
 				where: whereClause
 			}).then(products => {
 				if (products.length === 0) return res.status(404).json({ message: 'Product(s) not found !' });
-				res.status(200).json({ products: products });
+				res.status(200).json({
+					message: 'search accomplished!',
+					products: products
+				});
 			});
 		} catch (err) {
-			res.status(500).json({ error: 'Internal server error' });
+			res.status(500).json({ message: 'Internal server error' });
 		}
 	}
 
 
-	static async filterPriceInBetween(req, res) {
+	static async filterPriceInBetween(
+		req: TypedRequestQuery<{
+			initialPrice?: string,
+			finalPrice?: string
+		}>,
+		res: TypedResponseJson<{ message: string, products?: Product[] }>) {
+
+		type WhereClause = {
+			price: object | number
+		}
+
 		const { initialPrice, finalPrice } = req.query;
-		let whereClause = {};
+		const whereClause: WhereClause = {} as WhereClause;
 
 		const initP = Number(initialPrice);
 		const fnlP = Number(finalPrice);
@@ -61,7 +95,7 @@ class ProductFilterController {
 			whereClause.price = { [Op.gte]: [initP] };
 			break;
 
-		case !initialPrice && finalPrice:
+		case !initialPrice && finalPrice !== undefined:
 			whereClause.price = { [Op.lte]: [fnlP] };
 			break;
 
@@ -73,10 +107,13 @@ class ProductFilterController {
 		Product.findAll({ where: whereClause }).then(products => {
 			if (!products || products.length === 0) return res.status(404).json({ message: 'Product(s) not found !' });
 
-			res.status(200).json({ products: products });
+			res.status(200).json({
+				message: 'search accomplished!',
+				products: products
+			});
 		}).catch(err => { throw new Error(err); });
 
 	}
 }
 
-module.exports = ProductFilterController;
+export default ProductFilterController;
