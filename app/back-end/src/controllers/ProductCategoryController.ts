@@ -19,7 +19,6 @@ const includeProducts = {
 	raw: true
 };
 
-
 class ProductCategoryController {
 
 	static async getAll(
@@ -76,17 +75,10 @@ class ProductCategoryController {
 			registeredCategory?: ProductCategory
 		}>) {
 
-		const { name, description, parentId, level } = req.body;
+		const { name, description, parentId } = req.body;
 		const uuid = randomUUID();
 
-		const newCategory = {
-			id: uuid,
-			name,
-			description,
-			parentId,
-			level,
-			active: true
-		};
+		const parent = await ProductCategory.findByPk(parentId);
 
 		if (await Validate.isValidName(name) === false) {
 			return res.status(400).json({
@@ -100,24 +92,29 @@ class ProductCategoryController {
 			});
 		}
 
-
 		if (await Validate.isValidParent(parentId) === false) {
 			return res.status(400).json({
 				message: 'Invalid "parentID" !',
 			});
 		}
 
-		if (await Validate.isValidSubcategory(parentId) === false) {
+		if (await Validate.isValidLevel(parentId) === false) {
 			return res.status(400).json({
-				message: 'It is not allowed to add more subcategories to a level 3 category!',
+				message: 'Ivalid Subcategory category level!',
 			});
 		}
 
-		if (await Validate.acceptableLevel(level) === false) {
-			return res.status(400).json({
-				message: 'Category must be between level 1 to 3!',
-			});
-		}
+	
+		const level = !parent ? 1 : parent.get('level') + 1;
+
+		const newCategory = {
+			id: uuid,
+			name,
+			description,
+			parentId,
+			level,
+			active: true
+		};
 
 		await ProductCategory.create(newCategory)
 			.then(result => res.status(201).json({

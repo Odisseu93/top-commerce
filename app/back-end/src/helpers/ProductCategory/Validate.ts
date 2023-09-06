@@ -7,19 +7,41 @@ class Validate {
 		return !(nameAlreadyExists && nameAlreadyExists);
 	}
 
+
+	static async active(active: string | number | boolean) {
+
+		return active === 'true' ||
+			active === 'false' ||
+			active === 0 ||
+			active === 1 || true || false;
+	}
+
+
 	static async isValidParent(parentId: string) {
 		const parentCategory = await Category.findOne({ where: { id: parentId } });
 
 		return parentCategory || parentId === null;
 	}
 
-	static async isValidSubcategory(parentId: string) {
-		const parentCategory = await Category.findOne({ where: { id: parentId } });
-		return parentCategory && parentCategory.level < 3;
-	}
 
-	static async acceptableLevel(level: number) {
-		return level >= 1 && level <= 3;
+	static async isValidLevel(parentId: string | null) {
+
+		const validLevel = async () => {
+
+			if (parentId) {
+				return await Category.findByPk(parentId).then(parentCategory => {
+
+					if (!parentCategory) return false;
+					const parentLevel = parentCategory.get('level');
+
+					return Number(parentLevel) < 3;
+				});
+
+			}
+			return true;
+		};
+
+		return await validLevel();
 	}
 
 	static async isValidName(name: string) {
