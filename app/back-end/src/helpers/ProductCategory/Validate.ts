@@ -8,6 +8,14 @@ class Validate {
 	}
 
 
+	static async CategoryExist(id: string) {
+		const category = await Category.findOne({ where: { id: id } });
+
+		if (!category) return false;
+
+		return true;
+	}
+
 	static active(active: string | number | boolean) {
 
 		if (typeof active === 'boolean') return true;
@@ -15,7 +23,7 @@ class Validate {
 		return active === 'true' ||
 			active === 'false' ||
 			active === 0 ||
-			active === 1 ;
+			active === 1;
 	}
 
 
