@@ -8,12 +8,14 @@ class Validate {
 	}
 
 
-	static async active(active: string | number | boolean) {
+	static active(active: string | number | boolean) {
+
+		if (typeof active === 'boolean') return true;
 
 		return active === 'true' ||
 			active === 'false' ||
 			active === 0 ||
-			active === 1 || true || false;
+			active === 1 ;
 	}
 
 
