@@ -127,6 +127,70 @@ class ProductCategoryController {
 				});
 			});
 	}
+
+	static async update(
+		req: TypedRequestBody<ProductCategory> & Request,
+		res: TypedResponseJson<{ message: string, updatedCategory?: unknown }>) {
+
+		const { id } = req.params;
+
+		const { name, description, parentId, active } = req.body;
+
+
+		if (!await Validate.CategoryExist(id)) {
+			return res.status(404).json({
+				message: 'Category not found!',
+			});
+		}
+
+		if (!Validate.active(active)) {
+			return res.status(400).json({
+				message: `
+				Invalid value for "active"!
+
+				Accepted values are:
+					for true is: 1, "true", true
+					for false is: 0, "false", false.`,
+			});
+		}
+
+		if (await Validate.isValidName(name) === false) {
+			return res.status(400).json({
+				message: 'Category name cannot be empty',
+			});
+		}
+
+		if (await Validate.isValidParent(parentId) === false) {
+			return res.status(400).json({
+				message: 'Invalid "parentID" !',
+			});
+		}
+
+		if (await Validate.isValidLevel(parentId) === false) {
+			return res.status(400).json({
+				message: 'Ivalid Subcategory category level!',
+			});
+		}
+
+		const data = {
+			name,
+			description,
+			active: Boolean(active)
+		};
+
+		await ProductCategory.update(data, { where: { id: id } })
+			.then(result => res.status(201).json({
+				message: 'Category updated successfully!',
+				updatedCategory: result
+			}))
+			.catch(err => {
+				return res.status(500).json({
+					message: err,
+				});
+			});
+	}
+
+
 }
 
 export default ProductCategoryController;
