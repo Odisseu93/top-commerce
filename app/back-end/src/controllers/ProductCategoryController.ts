@@ -178,6 +178,7 @@ class ProductCategoryController {
 			active: Boolean(active)
 		};
 
+
 		await ProductCategory.update(data, { where: { id: id } })
 			.then(result => res.status(201).json({
 				message: 'Category updated successfully!',
@@ -190,6 +191,25 @@ class ProductCategoryController {
 			});
 	}
 
+	static async inative(
+		req: TypedRequestBody<ProductCategory> & Request,
+		res: TypedResponseJson<{ message: string, updatedCategory?: unknown }>) {
+
+		const { id } = req.params;
+
+		if (!await Validate.CategoryExist(id)) {
+			return res.status(404).json({
+				message: 'Category not found!',
+			});
+		}
+
+		await ProductCategory.update({ active: false }, { where: { id: id } })
+			.catch(err => {
+				return res.status(500).json({ message: err });
+			});
+
+		return res.status(200).json({ message: 'the product has been inactivated!' });
+	}
 
 }
 
