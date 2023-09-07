@@ -1,0 +1,368 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "summary": "API for e-commerce backoffice system",
+    "description": "This API is designed to efficiently manage all operations related to products and associated entities in an e-commerce back-office system. It offers comprehensive functionality for tasks such as product management, categories, warehouses, orders, and more.",
+    "version": "1.0.0",
+    "title": "E-commerce Back-Office API",
+    "contact": {
+      "email": "ulissessuporteti01@gmail",
+      "url": "https://github.com/odisseu93/top-commerce",
+      "name": "Top commerce Back-Office API"
+    },
+    "servers": {
+      "default": {
+        "url": "http://localhost:8080"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Products",
+      "description": "Endpoints for product management"
+    },
+    {
+      "name": "Categories",
+      "description": "Endpoints for category management"
+    },
+    {
+      "name": "Warehouses",
+      "description": "Endpoints for warehouse management"
+    },
+    {
+      "name": "Orders",
+      "description": "Endpoints for order management"
+    }
+  ],
+  "paths": {
+    "/products/all": {
+      "get": {
+        "description": "get all products",
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "search accomplished!",
+                  "products": [
+                    {
+                      "id": "d70d2084-4594-4141-9424-94520c89ad1f",
+                      "sku": "B550M-PLUS",
+                      "name": "PLACA MAE ASUS TUF GAMING B550M-PLUS DDR4 SOCKET AM4 CHIPSET AMD B550",
+                      "price": 939.99,
+                      "description": "Soquete AMD AM4: pronto para processadores AMD Ryzen™ de 3ª Geração.\nSolução de energia aprimorada: 8+2 estágios de energia, ProCool connector, componentes TUF de nível militar e VRM Digi+ para máxima durabilidade.\nRefrigeração abrangente: dissipadores de calor no VRM, dissipador de calor sem ventoinha no PCH, dissipador de calor no M.2, header de ventoinha híbridos e utilitário Fan Xpert 2+.\nConectividade de última geração: suporte para PCIe 4.0 M.2, USB 3.2 Gen 2 Tipo-A e Tipo-C.\nCodec Realtek S1200A: qualidade de áudio original sem precedentes, com taxa de sinal-ruído de 108 dB para saída estéreo e SNR de 103 dB para entrada de microfoneFeita para jogos on-line: tecnologia de Rede de 2,5 Gb, TUF LANGuard e TurboLAN.",
+                      "active": false,
+                      "createdAt": "2023-09-06T22:00:39.000Z",
+                      "updatedAt": "2023-09-06T22:00:39.000Z",
+                      "ProductCategory": {
+                        "id": "a7e7797e-069a-4301-ac0c-d6a22916d393",
+                        "name": "Asus",
+                        "parentId": "e899a3c4-6c10-4f8c-9f25-d4fb1d40007e"
+                      }
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No products found!",
+                  "products": []
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "description": "create a product",
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bodyCreateProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product created successfully!",
+                  "registeredProduct": {
+                    "id": "4655fcf2-dfb9-4f7e-ae6f-259c2b36c412",
+                    "sku": "B550M-PLUS",
+                    "name": "PLACA MAE ASUS TUF GAMING B550M-PLUS DDR4 SOCKET AM4 CHIPSET AMD B550",
+                    "price": 939.99,
+                    "description": "Soquete AMD AM4: pronto para processadores AMD Ryzen™ de 3ª Geração.\nSolução de energia aprimorada: 8+2 estágios de energia, ProCool connector, componentes TUF de nível militar e VRM Digi+ para máxima durabilidade.\nRefrigeração abrangente: dissipadores de calor no VRM, dissipador de calor sem ventoinha no PCH, dissipador de calor no M.2, header de ventoinha híbridos e utilitário Fan Xpert 2+.\nConectividade de última geração: suporte para PCIe 4.0 M.2, USB 3.2 Gen 2 Tipo-A e Tipo-C.\nCodec Realtek S1200A: qualidade de áudio original sem precedentes, com taxa de sinal-ruído de 108 dB para saída estéreo e SNR de 103 dB para entrada de microfoneFeita para jogos on-line: tecnologia de Rede de 2,5 Gb, TUF LANGuard e TurboLAN.",
+                    "CategoryId": "a7e7797e-069a-4301-ac0c-d6a22916d393",
+                    "active": false,
+                    "updatedAt": "2023-09-07T20:34:40.720Z",
+                    "createdAt": "2023-09-07T20:34:40.720Z"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Invalid attribute!",
+                  "products": []
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "description": "find a product by id",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "in": "path",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product created successfully!",
+                  "registeredProduct": {
+                    "id": "4655fcf2-dfb9-4f7e-ae6f-259c2b36c412",
+                    "sku": "B550M-PLUS",
+                    "name": "PLACA MAE ASUS TUF GAMING B550M-PLUS DDR4 SOCKET AM4 CHIPSET AMD B550",
+                    "price": 939.99,
+                    "description": "Soquete AMD AM4: pronto para processadores AMD Ryzen™ de 3ª Geração.\nSolução de energia aprimorada: 8+2 estágios de energia, ProCool connector, componentes TUF de nível militar e VRM Digi+ para máxima durabilidade.\nRefrigeração abrangente: dissipadores de calor no VRM, dissipador de calor sem ventoinha no PCH, dissipador de calor no M.2, header de ventoinha híbridos e utilitário Fan Xpert 2+.\nConectividade de última geração: suporte para PCIe 4.0 M.2, USB 3.2 Gen 2 Tipo-A e Tipo-C.\nCodec Realtek S1200A: qualidade de áudio original sem precedentes, com taxa de sinal-ruído de 108 dB para saída estéreo e SNR de 103 dB para entrada de microfoneFeita para jogos on-line: tecnologia de Rede de 2,5 Gb, TUF LANGuard e TurboLAN.",
+                    "CategoryId": "a7e7797e-069a-4301-ac0c-d6a22916d393",
+                    "active": false,
+                    "updatedAt": "2023-09-07T20:34:40.720Z",
+                    "createdAt": "2023-09-07T20:34:40.720Z"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product not found!"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "find a product by id",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "in": "path",
+            "name": "id"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/bodyUpdateProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product updated succesfully!",
+                  "result": [
+                    0
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete a product by id",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "in": "path",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product deleted!",
+                  "result": [
+                    0
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "bodyCreateProduct": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "CategoryId": {
+            "type": "string"
+          }
+        }
+      },
+      "bodyUpdateProduct": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "CategoryId": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Product": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid PK"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "description": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "ISO 8601"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "ISO 8601"
+          },
+          "ProductCategory": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "parentId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
