@@ -22,10 +22,17 @@ class ProductController {
 				},
 				attributes: { exclude: ['CategoryId'] }
 			})
-			.then(products => res.status(200).json({
-				message: 'search accomplished!',
-				products: products
-			}))
+			.then(products => {
+
+				if (products.length === 0) {
+					return res.status(200).json({ message: 'No products found!', products: products });
+				}
+
+				return res.status(200).json({
+					message: 'search accomplished!',
+					products: products
+				});
+			})
 			.catch(err => { throw new Error(err); });
 	}
 
