@@ -28,18 +28,43 @@ As suas principais tecnologias, são:
   - [MySQL 8.1](https://dev.mysql.com/)
 
 ## Run locally / Rodar localmente
-- clone
+#### Clone
 ```bash
 git clone https://github.com/Odisseu93/top-commerce
 ```
 
-<details>
-  <summary>Docker</summary>
-
-  ```bash 
-docker compose up -d
+```bash
+cd top-commerce
 ```
-</details>
+
+#### Docker
+
+```bash 
+docker compose up -d # in the root directory of the project / na pasta raiz 
+```
+
+### Swagger
+After starting the server, access the port in your browser:
+
+ Depois de iniciar o servidor, acesse a porta no seu navegador:
+
+```bash
+localhost:8080/docs/api/
+```
+
+
+## Developer / Desenvolvedor
+
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/76600539/235897309-88ab21df-d0be-4905-829c-36ab68ebc2e8.png" alt="developer: Ulisses Silvério"    width="200px" align="center"/>
+</div>
+<br>
+<div align="center" margin="50px">
+ <a href="https://linktr.ee/ulissessilverio" align="center">
+  <img src="https://img.shields.io/badge/linktree-1de9b6?style=for-the-badge&logo=linktree&logoColor=white" alt="linktree shild" />
+</a>
+</div>
+
 
 
 
