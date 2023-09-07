@@ -4,6 +4,7 @@ import bd from './db/mysql/index.js';
 import ProductRoutes from './routes/ProductRoutes.js';
 import ProductFiltersRoutes from './routes/ProductFiltersRoutes.js'; 
 import ProductCategoryRoutes from './routes/ProductCategoryRoutes.js'; 
+import docsRoutes from './routes/docsRoutes.js';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/products', ProductRoutes);
 app.use('/filter/products', ProductFiltersRoutes);
 app.use('/category/products', ProductCategoryRoutes);
+app.use('/docs', docsRoutes);
 
 bd.sync()
 	.then(() => app.listen(port, () => console.log(`Listen on ${port} port`)))
