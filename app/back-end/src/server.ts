@@ -16,9 +16,9 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
+app.use('/products/category', ProductCategoryRoutes);
+app.use('/products/filter', ProductFiltersRoutes);
 app.use('/products', ProductRoutes);
-app.use('/filter/products', ProductFiltersRoutes);
-app.use('/category/products', ProductCategoryRoutes);
 app.use('/docs', docsRoutes);
 
 bd.sync()
