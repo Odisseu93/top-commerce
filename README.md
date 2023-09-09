@@ -28,7 +28,7 @@ As suas principais tecnologias, são:
   - [MySQL 8.1](https://dev.mysql.com/)
 
 ## Run locally / Rodar localmente
-#### Clone
+### 1 - Clone
 ```bash
 git clone https://github.com/Odisseu93/top-commerce
 ```
@@ -37,20 +37,133 @@ git clone https://github.com/Odisseu93/top-commerce
 cd top-commerce
 ```
 
-#### Docker
+### 2 - Run Docker compose / execute o Docker compose 
 
 ```bash 
 docker compose up -d # in the root directory of the project / na pasta raiz 
 ```
 
-### Swagger
+### 3 - Install the project dependencies locally / Instale as dependecias do projeto localmente 
+
+```diff 
+- Do not skip this step / Não pule esta esta etapa
+```
+<br>
+
+**Front-end**
+```bash 
+cd app/front-end # in the root directory of the project / na pasta raiz 
+```
+```bash 
+ yarn install  
+```
+
+**Back-end**
+```bash 
+cd app/back-end # in the root directory of the project / na pasta raiz 
+```
+```bash 
+ yarn install  
+```
+### 4 - Locahost
 After starting the server, access the port in your browser:
+Depois de iniciar o servidor, acesse a porta no seu navegador:
 
- Depois de iniciar o servidor, acesse a porta no seu navegador:
-
+**Swagger**
 ```bash
 localhost:8080/docs/api/
 ```
+**Front-end**
+```bash
+localhost:3000
+```
+
+**Database** `PORT: 3308`
+
+### Filestruct / Estrutura de arquivos
+**For illustration purposes only, be guided by the files and folder present in this repository / Meramente ilustrativo se guie pelo arquivos e pasta presente neste repositório**
+<details>
+
+<summary>Back-end</summary>
+
+```
+.
+├── Dockerfile
+├── nodemon.json
+├── package.json
+├── src
+│   ├── controllers
+│   │   ├── ProductCategoryController.ts
+│   │   ├── ProductController.ts
+│   │   └── ProductFilterController.ts
+│   ├── db
+│   │   └── mysql
+│   │       └── index.ts
+│   ├── docs
+│   │   └── swagger.json
+│   ├── helpers
+│   │   └── ProductCategory
+│   │       ├── Validate.ts
+│   │       └── registeredProducts.ts
+│   ├── models
+│   │   ├── Product.ts
+│   │   └── ProductCategory.ts
+│   ├── routes
+│   │   ├── ProductCategoryRoutes.ts
+│   │   ├── ProductFiltersRoutes.ts
+│   │   ├── ProductRoutes.ts
+│   │   └── docsRoutes.ts
+│   ├── server.ts
+│   └── types
+│       ├── TypedRequestBody.ts
+│       ├── TypedRequestQuery.ts
+│       ├── TypedResponseJson.ts
+│       ├── controllers
+│       │   ├── Product
+│       │   │   ├── RequestCreateType.ts
+│       │   │   ├── RequestUpdateType.ts
+│       │   │   └── index.ts
+│       │   └── ProductFilter
+│       │       ├── ProductFilterPriceInBetweenRequestType.ts
+│       │       ├── ProductFilterRequestType.ts
+│       │       └── index.ts
+│       └── models
+│           ├── ProductCategory
+│           │   └── index.ts
+│           └── Products
+│               └── index.ts
+├── tsconfig.json
+└── yarn.lock
+```
+</details>
+
+<details>
+
+<summary>Font-end</summary>
+
+```
+.
+├── Dockerfile
+├── README.md
+├── index.html
+├── package.json
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.css
+│   ├── App.tsx
+│   ├── assets
+│   │   └── react.svg
+│   ├── index.css
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── yarn.lock
+```
+</details>
+
 
 
 ## Developer / Desenvolvedor
