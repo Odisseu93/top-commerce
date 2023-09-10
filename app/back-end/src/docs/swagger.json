@@ -35,6 +35,206 @@
     }
   ],
   "paths": {
+    "/products/category/all": {
+      "get": {
+        "description": "get all products",
+        "tags": [
+          "Categories"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "search accomplished!",
+                  "categories": [
+                    {
+                      "id": "093c7bd7-fa5c-49ec-8c17-b1af779cb52a",
+                      "name": "Hardwares",
+                      "description": "",
+                      "parentId": null,
+                      "level": 1,
+                      "active": 1,
+                      "createdAt": "2023-09-06T14:26:39.000Z",
+                      "updatedAt": "2023-09-06T14:26:39.000Z",
+                      "products": 0
+                    },
+                    {
+                      "id": "3fb03aae-0fc0-43e7-bf67-516be3a28c24",
+                      "name": "mac",
+                      "description": "",
+                      "parentId": "e899a3c4-6c10-4f8c-9f25-d4fb1d40007e",
+                      "level": 3,
+                      "active": 0,
+                      "createdAt": "2023-09-06T19:18:15.000Z",
+                      "updatedAt": "2023-09-06T22:29:04.000Z",
+                      "products": 0
+                    },
+                    {
+                      "id": "60805caf-7da1-4724-ad93-bc2361420b2d",
+                      "name": "Qudaid",
+                      "description": "Marca super topissimo!",
+                      "parentId": "e899a3c4-6c10-4f8c-9f25-d4fb1d40007e",
+                      "level": 3,
+                      "active": 0,
+                      "createdAt": "2023-09-06T21:40:24.000Z",
+                      "updatedAt": "2023-09-06T22:19:03.000Z",
+                      "products": 0
+                    },
+                    {
+                      "id": "60c993ff-8fdc-43b0-b31c-89b7584b36bf",
+                      "name": "Asusd",
+                      "description": "",
+                      "parentId": "093c7bd7-fa5c-49ec-8c17-b1af779cb52a",
+                      "level": 2,
+                      "active": 0,
+                      "createdAt": "2023-09-06T19:12:21.000Z",
+                      "updatedAt": "2023-09-09T14:17:21.000Z",
+                      "products": 0
+                    },
+                    {
+                      "id": "a7e7797e-069a-4301-ac0c-d6a22916d393",
+                      "name": "Asus",
+                      "description": "",
+                      "parentId": "e899a3c4-6c10-4f8c-9f25-d4fb1d40007e",
+                      "level": 3,
+                      "active": 1,
+                      "createdAt": "2023-09-06T19:11:42.000Z",
+                      "updatedAt": "2023-09-06T19:11:42.000Z",
+                      "products": 0
+                    },
+                    {
+                      "id": "e899a3c4-6c10-4f8c-9f25-d4fb1d40007e",
+                      "name": "Placa-Mãe",
+                      "description": "",
+                      "parentId": "093c7bd7-fa5c-49ec-8c17-b1af779cb52a",
+                      "level": 2,
+                      "active": 0,
+                      "createdAt": "2023-09-06T19:10:41.000Z",
+                      "updatedAt": "2023-09-06T22:29:22.000Z",
+                      "products": 1
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/category/{id}": {
+      "put": {
+        "description": "update a category",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "in": "path",
+            "name": "id"
+          },
+          {
+            "type": "object",
+            "required": true,
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/bodyUpdateProductCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Category updated succesfully!"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCategory"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Inactive a Category by id",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "required": true,
+            "in": "path",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "The category has been inactive!"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/category": {
+      "post": {
+        "description": "create a category",
+        "tags": [
+          "Categories"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductCategoryCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Category created seccessfully!",
+                  "registeredCategory": {
+                    "id": "f09c7a62-f001-464e-b673-fab6cc667f81",
+                    "name": "Softwares",
+                    "description": "Antivirus, Operational Systems, Games ETC.",
+                    "parentId": null,
+                    "level": 1,
+                    "active": true,
+                    "updatedAt": "2023-09-10T20:33:08.276Z",
+                    "createdAt": "2023-09-10T20:33:08.276Z"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ProductCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products/all": {
       "get": {
         "description": "get all products",
@@ -77,6 +277,151 @@
                 "example": {
                   "message": "No products found!",
                   "products": []
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/filter": {
+      "get": {
+        "description": "filter products",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "in": "query",
+            "required": false
+          },
+          {
+            "name": "sku",
+            "type": "string",
+            "in": "query",
+            "required": false
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "in": "query",
+            "required": false
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "format": "uuid",
+            "in": "query",
+            "required": false,
+            "description": "CategoryID"
+          },
+          {
+            "name": "active",
+            "type": "boolean",
+            "in": "query",
+            "required": false,
+            "description": "false = 0 | 'false'  true = 1 | 'true'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "search accomplished!!",
+                  "products": [
+                    {
+                      "id": "4655fcf2-dfb9-4f7e-ae6f-259c2b36c412",
+                      "sku": "B550M-PLUS",
+                      "name": "PLACA MAE ASUS TUF GAMING B550M-PLUS DDR4 SOCKET AM4 CHIPSET AMD B550",
+                      "price": 939.99,
+                      "description": "Soquete AMD AM4: pronto para processadores AMD Ryzen™ de 3ª Geração.\nSolução de energia aprimorada: 8+2 estágios de energia, ProCool connector, componentes TUF de nível militar e VRM Digi+ para máxima durabilidade.\nRefrigeração abrangente: dissipadores de calor no VRM, dissipador de calor sem ventoinha no PCH, dissipador de calor no M.2, header de ventoinha híbridos e utilitário Fan Xpert 2+.\nConectividade de última geração: suporte para PCIe 4.0 M.2, USB 3.2 Gen 2 Tipo-A e Tipo-C.\nCodec Realtek S1200A: qualidade de áudio original sem precedentes, com taxa de sinal-ruído de 108 dB para saída estéreo e SNR de 103 dB para entrada de microfoneFeita para jogos on-line: tecnologia de Rede de 2,5 Gb, TUF LANGuard e TurboLAN.",
+                      "CategoryId": "a7e7797e-069a-4301-ac0c-d6a22916d393",
+                      "active": false,
+                      "updatedAt": "2023-09-07T20:34:40.720Z",
+                      "createdAt": "2023-09-07T20:34:40.720Z"
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product not found!"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/filter/price": {
+      "get": {
+        "description": "filter products",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "initialPrice",
+            "type": "number",
+            "format": "uuid",
+            "in": "query",
+            "required": false
+          },
+          {
+            "name": "finalPrice",
+            "type": "number",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "search accomplished!!",
+                  "products": [
+                    {
+                      "id": "4655fcf2-dfb9-4f7e-ae6f-259c2b36c412",
+                      "sku": "B550M-PLUS",
+                      "name": "PLACA MAE ASUS TUF GAMING B550M-PLUS DDR4 SOCKET AM4 CHIPSET AMD B550",
+                      "price": 939.99,
+                      "description": "Soquete AMD AM4: pronto para processadores AMD Ryzen™ de 3ª Geração.\nSolução de energia aprimorada: 8+2 estágios de energia, ProCool connector, componentes TUF de nível militar e VRM Digi+ para máxima durabilidade.\nRefrigeração abrangente: dissipadores de calor no VRM, dissipador de calor sem ventoinha no PCH, dissipador de calor no M.2, header de ventoinha híbridos e utilitário Fan Xpert 2+.\nConectividade de última geração: suporte para PCIe 4.0 M.2, USB 3.2 Gen 2 Tipo-A e Tipo-C.\nCodec Realtek S1200A: qualidade de áudio original sem precedentes, com taxa de sinal-ruído de 108 dB para saída estéreo e SNR de 103 dB para entrada de microfoneFeita para jogos on-line: tecnologia de Rede de 2,5 Gb, TUF LANGuard e TurboLAN.",
+                      "CategoryId": "a7e7797e-069a-4301-ac0c-d6a22916d393",
+                      "active": false,
+                      "updatedAt": "2023-09-07T20:34:40.720Z",
+                      "createdAt": "2023-09-07T20:34:40.720Z"
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Product not found!"
                 },
                 "schema": {
                   "$ref": "#/components/schemas/Product"
@@ -162,7 +507,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "Product created successfully!",
+                  "message": "search accomplished!!",
                   "registeredProduct": {
                     "id": "4655fcf2-dfb9-4f7e-ae6f-259c2b36c412",
                     "sku": "B550M-PLUS",
@@ -360,6 +705,58 @@
                 "format": "uuid"
               }
             }
+          }
+        }
+      },
+      "ProductCategory": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid PK"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductCategoryCreateBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "string"
+          }
+        }
+      },
+      "bodyUpdateProductCategory": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
           }
         }
       }
