@@ -1,5 +1,8 @@
 import express from 'express';
+
 import bd from './db/mysql/index.js';
+
+import cors from 'cors';
 
 import ProductRoutes from './routes/ProductRoutes.js';
 import ProductFiltersRoutes from './routes/ProductFiltersRoutes.js'; 
@@ -15,6 +18,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/products/category', ProductCategoryRoutes);
 app.use('/products/filter', ProductFiltersRoutes);
